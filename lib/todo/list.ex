@@ -1,4 +1,4 @@
-efmodule Todo.List do
+defmodule Todo.List do
   defstruct auto_id: 1, entries: HashDict.new
 
   def new(entries \\ []) do
