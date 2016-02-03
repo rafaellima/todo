@@ -4,25 +4,25 @@ efmodule Todo.List do
   def new(entries \\ []) do
     Enum.reduce(
       entries,
-      %TodoList{},
+      %Todo.List{},
       &add_entry(&2, &1)
     )
   end
 
   def add_entry(
-    %TodoList{entries: entries, auto_id: auto_id} = todo_list,
+    %Todo.List{entries: entries, auto_id: auto_id} = todo_list,
     entry
   ) do
     entry = Map.put(entry, :id, auto_id)
     new_entries = HashDict.put(entries, auto_id, entry)
 
-    %TodoList{todo_list |
+    %Todo.List{todo_list |
       entries: new_entries,
       auto_id: auto_id + 1
     }
   end
 
-  def entries(%TodoList{entries: entries}, date) do
+  def entries(%Todo.List{entries: entries}, date) do
     entries
     |> Stream.filter(fn({_, entry}) ->
          entry.date == date
@@ -39,7 +39,7 @@ efmodule Todo.List do
   end
 
   def update_entry(
-    %TodoList{entries: entries} = todo_list,
+    %Todo.List{entries: entries} = todo_list,
     entry_id,
     updater_fun
   ) do
@@ -49,15 +49,15 @@ efmodule Todo.List do
       old_entry ->
         new_entry = updater_fun.(old_entry)
         new_entries = HashDict.put(entries, new_entry.id, new_entry)
-        %TodoList{todo_list | entries: new_entries}
+        %Todo.List{todo_list | entries: new_entries}
     end
   end
 
 
   def delete_entry(
-    %TodoList{entries: entries} = todo_list,
+    %Todo.List{entries: entries} = todo_list,
     entry_id
   ) do
-    %TodoList{todo_list | entries: HashDict.delete(entries, entry_id)}
+    %Todo.List{todo_list | entries: HashDict.delete(entries, entry_id)}
   end
 end
