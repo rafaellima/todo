@@ -1,16 +1,16 @@
-defmodule Todo.Database do
+defmodule Todo.DatabaseWorker do
   use GenServer
 
   def start(db_folder) do
-    GenServer.start(__MODULE__, db_folder, name: :database_server)
+    GenServer.start(__MODULE__, db_folder)
   end
 
-  def store(key, data) do
-    GenServer.cast(:database_server, {:store, key, data})
+  def store(worker_pid, key, data) do
+    GenServer.cast(worker_pid, {:store, key, data})
   end
 
-  def get(key) do
-    GenServer.call(:database_server, {:get, key})
+  def get(worker_pid, key) do
+    GenServer.call(worker_pid, {:get, key})
   end
 
 
