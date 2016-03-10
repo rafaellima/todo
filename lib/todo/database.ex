@@ -1,4 +1,4 @@
-defmodule Todo.DatabaseWorker do
+defmodule Todo.Database do
   use GenServer
 
   def start(db_folder) do
@@ -12,7 +12,6 @@ defmodule Todo.DatabaseWorker do
   def get(worker_pid, key) do
     GenServer.call(worker_pid, {:get, key})
   end
-
 
   def init(db_folder) do
     File.mkdir_p(db_folder)
