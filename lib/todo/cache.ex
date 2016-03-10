@@ -1,8 +1,10 @@
 defmodule Todo.Cache do
   use GenServer
 
-  def start do
-    GenServer.start(__MODULE__, nil)
+  def start_link do
+    IO.puts "Starting to-do cache"
+
+    GenServer.start_link(__MODULE__, nil, name: :todo_cache)
   end
 
   def server_process(cache_pid, todo_list_name) do
